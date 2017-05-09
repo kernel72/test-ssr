@@ -24,10 +24,11 @@
     "express": "^4.15.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-helmet": "^5.0.3",
     "react-router-dom": "^4.1.1"
   },
   "scripts": {
     "build": "webpack && BABEL_ENV=node babel-node server.js",
-    "dev": "BABEL_ENV=node babel-watch server.js"
+    "dev": "cd src/ && BABEL_ENV=node babel-watch server.js"
   }
 }

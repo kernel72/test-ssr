@@ -4,9 +4,9 @@
 import express from 'express';
 import ReactDOMServer from 'react-dom/server';
 import React from 'react';
-import ejs from 'ejs';
 import App from './app';
 import {StaticRouter} from 'react-router-dom'
+import Helmet from 'react-helmet'
 
 const app = express();
 
@@ -17,17 +17,29 @@ app.get('/favicon.ico', function(req, res) {
 app.get('*', (req, res) => {
 
     console.log(req.url);
-    ejs.renderFile('./index.ejs', {
-        page: {
-            title: "Hi from server!",
-            content: ReactDOMServer.renderToString(
-                <StaticRouter location={req.url} context={{}}>
-                    <App />
-                </StaticRouter>)
-        }
-    }, (err, result) => {
-        res.send(result);
-    })
+
+    const content = ReactDOMServer.renderToString(
+        <StaticRouter location={req.url} context={{}}>
+            <App />
+        </StaticRouter>);
+
+    const helmet = Helmet.renderStatic();
+    const html = `
+        <!DOCTYPE html>
+        <html lang="en" ${helmet.htmlAttributes.toString()}>
+        <head>
+            ${helmet.title.toString()}
+            ${helmet.meta.toString()}
+            ${helmet.link.toString()}
+            <link rel="stylesheet" href="/static/style.css">
+        </head>
+        <body ${helmet.bodyAttributes.toString()}>
+            <div id="react-app">${content}</div>
+            <script src="/static/bundle.js"></script>
+        </body>
+        </html>
+    `;
+    res.send(html);
 });
 
 app.listen('3001', () => {

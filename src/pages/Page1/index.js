@@ -6,6 +6,7 @@ import React from 'react'
 import './style.scss'
 import {Link} from 'react-router-dom'
 import {Helmet} from 'react-helmet'
+import jeep from './jeep.jpg'
 
 export default () => {
     return (
@@ -16,6 +17,7 @@ export default () => {
             </Helmet>
             <h1>Page 1</h1>
             <Link to={`/`}>To Home</Link>
+            <img src={jeep} alt=""/>
         </div>
 
     )

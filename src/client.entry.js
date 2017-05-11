@@ -11,6 +11,7 @@ ReactDOM.render(
     <BrowserRouter>
         <App/>
     </BrowserRouter>,
-    document.getElementById('react-app'));
+    document.getElementById('react-app')
+);
 
 

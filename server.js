@@ -15,7 +15,7 @@ app.get('*', (req, res) => {
 
     console.log(req.url);
 
-    const html = require('./dist/server.bundle.js').default;
+    const html = require('./dist/server.bundle');
     res.send(html(req.url, {}));
 });
 

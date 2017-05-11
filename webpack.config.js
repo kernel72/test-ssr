@@ -47,7 +47,7 @@ module.exports = [{
     output: {
         path: distDir,
         filename: "server.bundle.js",
-        libraryTarget: "commonjs2"
+        libraryTarget: "commonjs"
     },
     module: {
         rules

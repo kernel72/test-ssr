@@ -26,10 +26,12 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-helmet": "^5.0.3",
-    "react-router-dom": "^4.1.1"
+    "react-redux": "^5.0.5",
+    "react-router-dom": "^4.1.1",
+    "redux": "^3.6.0"
   },
   "scripts": {
     "build": "webpack && BABEL_ENV=node babel-node server.js",
-    "dev": "cd src/ && BABEL_ENV=node babel-watch server.js"
+    "dev": "webpack -w --progress"
   }
 }

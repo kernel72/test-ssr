@@ -3,19 +3,78 @@
  */
 
 import React from 'react';
-import Home from './pages/Home'
-import Page1 from './pages/Page1'
+import routes from './routes';
+import {connect} from 'react-redux';
 
 import {
     Switch,
-    Route
+    Route,
 } from "react-router-dom"
+
+const LoadRoute = ({exact, path, component, loadData}) => {
+    return (
+        <Route
+            exact={exact}
+            path={path}
+            render={({location}) => {
+                return <LoadPage location={location} page={component} loadData={loadData}/>
+        }}/>
+    );
+};
+
+class _LoadPage extends React.Component {
+    constructor(props){
+        super(props);
+
+    }
+
+    componentDidMount(){
+
+        const {loadData, dispatch, location} = this.props;
+        if(this.isLoaded) return;
+
+        dispatch({
+            type: "LOAD",
+            url: location.pathname
+        });
+
+        loadData().then(data => {
+            dispatch({
+                type: "LOAD_COMPLETE",
+                url: location.pathname,
+                data
+            })
+        })
+    }
+
+    render(){
+        const {currentPage, location} = this.props;
+        this.isLoaded = currentPage.url === location.pathname && !currentPage.isLoading;
+        const Page = this.props.page;
+
+        return(
+            this.isLoaded ? <Page pageData={this.props.currentPage.data}/> : <div>Loading...</div>
+        )
+    }
+}
+const LoadPage = connect(
+    state => ({
+        currentPage: state.page
+    }))(_LoadPage);
+
+
+
+
 
 const App = () => (
     <Switch>
-        <Route exact path="/" component={Home}/>
-        <Route path="/page1" component={Page1}/>
+        {
+            routes.map((route, i) => (
+                <LoadRoute key={i} {...route}/>
+            ))
+        }
     </Switch>
+
 );
 
 export default App;
